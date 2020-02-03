@@ -11,18 +11,16 @@ const server = require('../index.js');
 const User = require('../models/user.js');
 const bcrypt = require('bcryptjs');
 
-const user = {
-  name: 'Fikri',
-  email: 'test01@mail.com',
-  password: '123456' 
-}
+const fixtures = require('./fixtures/userFixtures');
+const staticSample = fixtures.create();
 
 describe('User API', () => {
 
   before(done => {
+    let encryptedPassword = bcrypt.hashSync(staticSample.password, 10);
     User.create({
-      ...user,
-      password: bcrypt.hashSync(user.password)
+      ...staticSample,
+      password: encryptedPassword
     }).then(i => done());
   })
 
@@ -33,17 +31,10 @@ describe('User API', () => {
 
   context('POST /api/v1/users/register', () => {
       it('Should create new user', done => {
-        let data = {
-          ...user,
-          email: 'test02@mail.com'
-        }
-
-        console.log(data);
-
         chai.request(server)
           .post('/api/v1/users/register')
           .set('Content-Type', 'application/json')
-          .send(JSON.stringify(data))
+          .send(JSON.stringify(fixtures.create()))
           .end(function(err, res) {
             console.log(res.body);
             expect(res.status).to.eq(201);
@@ -60,10 +51,8 @@ describe('User API', () => {
       })
 
       it('Should not create a new user', done => {
-        let data = {
-          email: 'test01@mail.com',
-          password: '123456' 
-        }
+        let data = fixtures.create();
+        delete data.name;
         
         chai.request(server)
           .post('/api/v1/users/register')
@@ -86,7 +75,7 @@ describe('User API', () => {
           chai.request(server)
             .post('/api/v1/users/register')
             .set('Content-Type', 'application/json')
-            .send(JSON.stringify(user))
+            .send(JSON.stringify(staticSample))
             .end(function(err, res) {
               console.log(res.body);
               expect(res.status).to.eq(422);
@@ -105,9 +94,14 @@ describe('User API', () => {
         chai.request(server)
         .post('/api/v1/users/login')
         .set('Content-Type', 'application/json')
-        .send(JSON.stringify(user))
+        .send(JSON.stringify(staticSample))
         .end(function(err, res) {
-          console.log(res.body);``
+          console.log(res.body);
+
+          expect(res.status).to.eq(200);
+          expect(res.body.status).to.eq(true);
+          expect(res.body.data).to.be.a('string');
+
           done();
         })
     })
