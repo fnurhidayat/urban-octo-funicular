@@ -21,12 +21,22 @@ describe('User API', () => {
     User.create({
       ...staticSample,
       password: encryptedPassword
-    }).then(i => done());
+    })
+      .then(i => done())
+      .catch(err => {
+        console.log(err);
+        done()
+      })
+    ;
   })
 
   after(done => {
     User.deleteMany({})
       .then(() => done());
+      .catch(err => {
+        console.log(err);
+        done()
+      })
   })
 
   context('POST /api/v1/users/register', () => {
