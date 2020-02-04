@@ -1,0 +1,12 @@
+stages:
+  - test
+
+test:
+  image: "node:12.13"
+  type: test
+  stage: test
+  environment: test
+  script:
+    - echo "Hello World"
+  only:
+    - master
