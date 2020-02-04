@@ -1,12 +1,13 @@
-const Post = require('../models/post.js');
-const User = require('../models/user.js');
+const Post = require('../models/post.js')
+const User = require('../models/user.js')
+const {
+  success,
+  error
+} = require('../helpers/response.js')
 
 function create(req, res) {
   if (!req.headers.authorization) {
-    return res.status(401).json({
-      status: false,
-      errors: 'Unauthorized'
-    })
+    return error(res, 'Unauthorized', 401) 
   } 
 
   let newPost = new Post({
@@ -16,17 +17,11 @@ function create(req, res) {
   })
 
   newPost.save()
-    .then(data => {
-      res.status(201).json({
-        status: true,
-        data: newPost
-      })
+    .then(() => {
+      success(res, newPost, 201)
     })
     .catch(err => {
-      res.status(422).json({
-        status: false,
-        errors: err
-      })
+      error(res, err, 422)
     })
 }
 

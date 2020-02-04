@@ -25,9 +25,8 @@ const postSchema = new Schema({
 const Post = mongoose.model('Post', postSchema);
 
 Post.all = () => {
-  return new Promise(async (resolve, reject) => {
-    try {
-    let result = await Post
+  return new Promise((resolve, reject) => {
+    Post
       .find()
       .select([
         '_id',
@@ -45,14 +44,13 @@ Post.all = () => {
           path: 'likes',
           select: ['_id','name']
         },
-      ]) 
-
-      resolve(result);
-    }
-
-    catch(err) {
-      reject(err)
-    }
+      ])
+      .then(data => {
+        resolve(data)
+      })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 

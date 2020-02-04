@@ -23,7 +23,7 @@ mongoose.connect(
     useCreateIndex: true
   }
 )
-  .then(data => console.log('Database connected!'))
+  .then(() => console.log('Database connected!'))
   .catch(err => console.log(err));
   
 app.use(cors());
