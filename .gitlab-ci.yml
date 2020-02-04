@@ -1,11 +1,19 @@
+# Add MongoDB Service
+services:
+  - mongo:latest
+
+# Cache node_modules/ between jobs 
+cache:
+  paths:
+    - node_modules/
+
+# Define stages 
 stages:
   - test
 
 test:
   image: "node:12.13"
-  type: test
   stage: test
-  environment: test
   script:
     - npm install
     - npm test
