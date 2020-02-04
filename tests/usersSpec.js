@@ -30,13 +30,10 @@ describe('User API', () => {
     ;
   })
 
-  after(done => {
+  after(() => {
     User.deleteMany({})
       .then(() => done())
-      .catch(err => {
-        console.log(err);
-        done()
-      })
+      .catch(err => done())
   })
 
   context('POST /api/v1/users/register', () => {
