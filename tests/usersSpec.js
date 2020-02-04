@@ -31,7 +31,7 @@ describe('User API', () => {
   })
 
   context('POST /api/v1/users/register', () => {
-      it('Should create new user', done => {
+      it('Should create new user', () => {
         chai.request(server)
           .post('/api/v1/users/register')
           .set('Content-Type', 'application/json')
@@ -45,12 +45,10 @@ describe('User API', () => {
             expect(data).to.have.property('_id')
             expect(data).to.have.property('email')
             expect(data.email).to.eq(data.email)
-
-            done();
           })
       })
 
-      it('Should not create a new user', done => {
+      it('Should not create a new user', () => {
         let data = fixtures.create();
         delete data.name;
         
@@ -65,12 +63,10 @@ describe('User API', () => {
             expect(status).to.eq(false);
             expect(errors).to.be.an('object');
             expect(errors.message).to.eq('User validation failed: name: Path `name` is required.');
-
-            done();
           })
       })
 
-      it('Should not create a new user due to duplication', done => {
+      it('Should not create a new user due to duplication', () => {
           chai.request(server)
             .post('/api/v1/users/register')
             .set('Content-Type', 'application/json')
@@ -81,14 +77,12 @@ describe('User API', () => {
               let { status, errors } = res.body;
               expect(status).to.eq(false);
               expect(errors).to.be.an('object');
-
-              done();
             }) 
       })
   })
 
   context('POST /api/v1/users/login', () => {
-    it('Should successfully logged in', done => {
+    it('Should successfully logged in', () => {
         chai.request(server)
         .post('/api/v1/users/login')
         .set('Content-Type', 'application/json')
@@ -97,8 +91,6 @@ describe('User API', () => {
           expect(res.status).to.eq(200);
           expect(res.body.status).to.eq(true);
           expect(res.body.data).to.be.a('string');
-
-          done();
         })
     })
   })
