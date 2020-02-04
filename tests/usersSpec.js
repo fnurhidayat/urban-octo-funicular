@@ -32,7 +32,7 @@ describe('User API', () => {
 
   after(done => {
     User.deleteMany({})
-      .then(() => done());
+      .then(() => done())
       .catch(err => {
         console.log(err);
         done()
