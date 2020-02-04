@@ -23,11 +23,13 @@ mongoose.connect(
     useCreateIndex: true
   }
 )
-  .then(() => console.log('Database connected!'))
+  .then(() => {
+    if(process.env.NODE_ENV !== 'test') console.log('Database connected!')
+  })
   .catch(err => console.log(err));
   
 app.use(cors());
-app.use(morgan('dev'));
+if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'))

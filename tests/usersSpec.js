@@ -36,7 +36,6 @@ describe('User API', () => {
           .set('Content-Type', 'application/json')
           .send(JSON.stringify(fixtures.create()))
           .end(function(err, res) {
-            console.log(res.body);
             expect(res.status).to.eq(201);
 
             let { status, data } = res.body;
@@ -59,7 +58,6 @@ describe('User API', () => {
           .set('Content-Type', 'application/json')
           .send(JSON.stringify(data))
           .end(function(err, res) {
-            console.log(res.body);
             expect(res.status).to.eq(422);
 
             let { status, errors } = res.body;
@@ -77,7 +75,6 @@ describe('User API', () => {
             .set('Content-Type', 'application/json')
             .send(JSON.stringify(staticSample))
             .end(function(err, res) {
-              console.log(res.body);
               expect(res.status).to.eq(422);
 
               let { status, errors } = res.body;
@@ -96,8 +93,6 @@ describe('User API', () => {
         .set('Content-Type', 'application/json')
         .send(JSON.stringify(staticSample))
         .end(function(err, res) {
-          console.log(res.body);
-
           expect(res.status).to.eq(200);
           expect(res.body.status).to.eq(true);
           expect(res.body.data).to.be.a('string');
