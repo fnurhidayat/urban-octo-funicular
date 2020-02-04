@@ -16,18 +16,12 @@ const staticSample = fixtures.create();
 
 describe('User API', () => {
 
-  before(done => {
+  before(() => {
     let encryptedPassword = bcrypt.hashSync(staticSample.password, 10);
     User.create({
       ...staticSample,
       password: encryptedPassword
     })
-      .then(i => done())
-      .catch(err => {
-        console.log(err);
-        done()
-      })
-    ;
   })
 
   after(() => {
