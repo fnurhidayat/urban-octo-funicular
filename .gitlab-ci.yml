@@ -7,6 +7,7 @@ test:
   stage: test
   environment: test
   script:
-    - echo "Hello World"
+    - npm install
+    - npm test
   only:
     - master
