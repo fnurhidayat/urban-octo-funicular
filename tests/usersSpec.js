@@ -14,9 +14,9 @@ const bcrypt = require('bcryptjs');
 const fixtures = require('./fixtures/userFixtures');
 const staticSample = fixtures.create();
 
-describe('User API', () => {
+describe('User API', function() {
 
-  before(() => {
+  before(function() {
     let encryptedPassword = bcrypt.hashSync(staticSample.password, 10);
     User.create({
       ...staticSample,
@@ -24,12 +24,12 @@ describe('User API', () => {
     })
   })
 
-  after(() => {
+  after(function() {
     User.deleteMany({})
   })
 
-  context('POST /api/v1/users/register', () => {
-      it('Should create new user', () => {
+  context('POST /api/v1/users/register', function() {
+      it('Should create new user', function() {
         chai.request(server)
           .post('/api/v1/users/register')
           .set('Content-Type', 'application/json')
@@ -46,7 +46,7 @@ describe('User API', () => {
           })
       })
 
-      it('Should not create a new user', () => {
+      it('Should not create a new user', function() {
         let data = fixtures.create();
         delete data.name;
         
@@ -64,7 +64,7 @@ describe('User API', () => {
           })
       })
 
-      it('Should not create a new user due to duplication', () => {
+      it('Should not create a new user due to duplication', function() {
           chai.request(server)
             .post('/api/v1/users/register')
             .set('Content-Type', 'application/json')
@@ -79,8 +79,8 @@ describe('User API', () => {
       })
   })
 
-  context('POST /api/v1/users/login', () => {
-    it('Should successfully logged in', () => {
+  context('POST /api/v1/users/login', function() {
+    it('Should successfully logged in', function() {
         chai.request(server)
         .post('/api/v1/users/login')
         .set('Content-Type', 'application/json')
