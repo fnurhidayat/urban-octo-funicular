@@ -10,7 +10,7 @@ const server = require('../index.js');
 
 describe('Root Endpoint', () => {
 
-  context('/', () => { 
+  context('GET /', () => { 
       it('Should return true, and give hello world string in data', done => {
         chai.request(server)
           .get('/')
