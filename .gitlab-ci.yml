@@ -1,5 +1,6 @@
-hello-world:
+test:
+  image: node:12.13
   script:
-    - echo "Hello World"
-    - ls
-    - pwd
+    - npm install
+  only:
+    - master
