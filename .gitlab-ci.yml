@@ -1,21 +1,5 @@
-# Add MongoDB Service
-services:
-  - mongo:latest
-
-# Cache node_modules/ between jobs 
-cache:
-  paths:
-    - node_modules/
-
-# Define stages 
-stages:
-  - test
-
-test:
-  image: "node:12.13"
-  stage: test
+hello-world:
   script:
-    - npm install
-    - npm test
-  only:
-    - master
+    - echo "Hello World"
+    - ls
+    - pwd
