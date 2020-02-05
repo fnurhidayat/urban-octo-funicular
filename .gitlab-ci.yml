@@ -1,10 +1,13 @@
 test:
   image: node:12.13
   variables:
-    DB_CONNECTION_TEST: 'mongodb://localhost:27018' 
+    DB_CONNECTION_TEST: 'mongodb://localhost:27018/test' 
+    JWT_SIGNATURE_KEY: '2a10OSkN391c3v3F93paIbBps.oMF6z.0fCoVEr6jwIfGHQnF2ZRlTBQy'
   services:
     - mongo:latest
   script:
+    - echo $DB_CONNECTION_TEST
+    - echo $JWT_SIGNATURE_KEY
     - npm install
     - npm test
   only:
