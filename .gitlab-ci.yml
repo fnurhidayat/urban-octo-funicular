@@ -1,5 +1,7 @@
 test:
   image: node:12.13
+  variables:
+    DB_CONNECTION_TEST: 'mongodb://localhost:27018' 
   services:
     - mongo:latest
   script:
