@@ -1,6 +1,9 @@
 test:
   image: node:12.13
+  services:
+    - mongo:latest
   script:
     - npm install
+    - npm test
   only:
     - master
