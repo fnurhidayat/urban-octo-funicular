@@ -26,8 +26,6 @@ describe('User API', () => {
 
   after(() => {
     User.deleteMany({})
-      .then(() => done())
-      .catch(err => done())
   })
 
   context('POST /api/v1/users/register', () => {
