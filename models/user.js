@@ -10,6 +10,10 @@ const userSchema = new Schema({
     type: 'string',
     required: true
   },
+  image: {
+    type: 'string',
+    optional: true
+  },
   email: {
     type: 'string',
     required: true,
