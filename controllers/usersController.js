@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const imagekit = require('../middlewares/imagekit')
 const mailer = require('../helpers/mailer.js')
 const fs = require('fs')
+const Auth = require('../events/auth.js')
 
 function create(req, res) {
   let password = bcrypt.hashSync(req.body.password, 10);
@@ -56,16 +57,33 @@ function login(req, res) {
         errors: 'Email seems to be not existed!'
       })
 
+      let userLog = process.log.users[user._id]
+      let loginAttempt = 0
+      if (userLog)
+        loginAttempt = userLog.loginCount; 
+
+      if (loginAttempt > 4) {
+        return res.status(422).json({
+          status: false,
+          errors: "You've reached your maximum exceed for login attempt"
+        })
+      }
+
       if (bcrypt.compareSync(req.body.password, user.password)) {
         let token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
+        Auth.emit('authorized', user._id)
 
-
-        console.log(req.body.password)
         res.status(200).json({
           status: true,
           data: token 
         })
       } else {
+        Auth.emit('unauthorized', {
+          _id: user._id,
+          email: req.body.email,
+          source: req.headers['user-agents']
+        })
+
         res.status(401).json({
           status: false,
           errors: 'Wrong password!'

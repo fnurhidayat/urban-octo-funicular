@@ -7,6 +7,7 @@ const swagger = require('swagger-ui-express')
 const documentation = require('./swagger.json')
 
 dotenv.config();
+process.log = {}
 
 const env = process.env.NODE_ENV;
 const dbConnection = {
